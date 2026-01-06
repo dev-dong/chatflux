@@ -4,6 +4,6 @@ LABEL authors="dong"
 WORKDIR /app
 COPY build/libs/*.jar app.jar
 
-EXPOSE 8080
+EXPOSE 18080
 
 ENTRYPOINT ["java", "-jar", "app.jar"]

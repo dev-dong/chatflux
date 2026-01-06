@@ -1,0 +1,32 @@
+services:
+  redis:
+    image: redis:latest
+    container_name: redis-local
+    ports:
+      - "6379:6379"
+    networks:
+      - chat-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  chat-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: chat-app:latest
+    container_name: dongho
+    ports:
+      - "18080:18080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - chat-network
+
+networks:
+  chat-network:
